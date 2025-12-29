@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Datasets — OpenCourts.FYI</title>
+  <link rel="stylesheet" href="../assets/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-row">
+      <a class="brand" href="../index.html">OpenCourts.FYI</a>
+      <nav class="nav">
+        <a href="./index.html">Datasets</a>
+        <a href="../governance.html">Governance</a>
+        <a href="../contribute.html">Contribute</a>
+        <a href="../api-docs/index.html">API</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="section">
+      <h2>Datasets</h2>
+      <p class="muted">This page simulates CKAN search + facets. In production, this would be backed by Solr faceting and CKAN APIs.</p>
+
+      <div class="layout">
+        <div id="filters"></div>
+        <div>
+          <div id="catalog" class="grid"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-row">
+      <div class="muted">Tip: try searching “docket” or filtering by state.</div>
+    </div>
+  </footer>
+
+  <script src="../assets/app.js"></script>
+  <script>
+    window.OpenCourts.renderCatalog({ mountId: 'catalog', filtersId: 'filters' });
+  </script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+{
+  "help": "https://docs.ckan.org/en/2.10/api/",
+  "success": true,
+  "result": {
+    "id": "sc-civil-docket-events-2024",
+    "name": "sc-civil-docket-events-2024",
+    "title": "SC Civil Docket Events (Sample, 2024)",
+    "notes": "Sample civil docket events dataset showing how event timelines can be represented.",
+    "license_id": "cc-zero",
+    "license_title": "CC0 1.0",
+    "tags": [{"name": "civil"}, {"name": "docket"}, {"name": "south-carolina"}, {"name": "circuit-court"}],
+    "extras": [
+      {"key": "jurisdiction_state", "value": "South Carolina"},
+      {"key": "jurisdiction_county", "value": "Richland"},
+      {"key": "court_type", "value": "Circuit Court"},
+      {"key": "provenance_retrieved_at", "value": "2024-10-02T19:27:00Z"},
+      {"key": "review_status", "value": "human-approved"}
+    ],
+    "resources": [
+      {
+        "id": "resource-sc-civil-json",
+        "name": "Docket events (sample rows)",
+        "format": "JSON",
+        "url": "../data/sc_civil_docket_events_2024_sample.json"
+      }
+    ]
+  }
+}

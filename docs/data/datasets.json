@@ -1,0 +1,48 @@
+[
+  {
+    "id": "nc-criminal-dispositions-2024",
+    "title": "NC Criminal Case Dispositions (Sample, 2024)",
+    "description": "Sample dispositions dataset to demonstrate a CKAN-style portal: metadata, provenance, resources, and machine-readable access.",
+    "detail_page": "./nc-criminal-dispositions-2024.html",
+    "license": "CC BY 4.0",
+    "tags": ["criminal", "dispositions", "north-carolina", "district-court"],
+    "jurisdiction": {"state": "North Carolina", "county": "Wake"},
+    "court_type": "District Court",
+    "court_level": "Trial",
+    "badges": [
+      {"label": "AI-reviewed", "level": "warn"},
+      {"label": "Human-approved", "level": "good"},
+      {"label": "Provenance-verified", "level": "good"}
+    ]
+  },
+  {
+    "id": "sc-civil-docket-events-2024",
+    "title": "SC Civil Docket Events (Sample, 2024)",
+    "description": "Sample civil docket events dataset showing how updates, versioning, and resource validation could be presented.",
+    "detail_page": "./sc-civil-docket-events-2024.html",
+    "license": "CC0",
+    "tags": ["civil", "docket", "south-carolina", "circuit-court"],
+    "jurisdiction": {"state": "South Carolina", "county": "Richland"},
+    "court_type": "Circuit Court",
+    "court_level": "Trial",
+    "badges": [
+      {"label": "AI-reviewed", "level": "warn"},
+      {"label": "Human-approved", "level": "good"}
+    ]
+  },
+  {
+    "id": "nc-probate-estates-2023",
+    "title": "NC Probate Estates (Sample, 2023)",
+    "description": "Sample probate/estates dataset illustrating governance expectations around sensitive data and redaction guidance.",
+    "detail_page": "./nc-probate-estates-2023.html",
+    "license": "PDDL",
+    "tags": ["probate", "estates", "north-carolina"],
+    "jurisdiction": {"state": "North Carolina", "county": "Mecklenburg"},
+    "court_type": "Superior Court",
+    "court_level": "Trial",
+    "badges": [
+      {"label": "AI-reviewed", "level": "warn"},
+      {"label": "Human-approved", "level": "good"}
+    ]
+  }
+]

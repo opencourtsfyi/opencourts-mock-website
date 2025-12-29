@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OpenCourts.FYI — Mock Data Portal</title>
+  <link rel="stylesheet" href="./assets/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-row">
+      <a class="brand" href="./index.html">OpenCourts.FYI</a>
+      <nav class="nav">
+        <a href="./datasets/index.html">Datasets</a>
+        <a href="./governance.html">Governance</a>
+        <a href="./contribute.html">Contribute</a>
+        <a href="./api-docs/index.html">API</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <h1>Open court data, documented and reusable.</h1>
+      <p class="lede">This is a static mock portal to simulate how a CKAN-powered OpenCourts.FYI catalog would work.</p>
+
+      <form class="search" action="./datasets/index.html" method="get">
+        <label class="sr-only" for="q">Search datasets</label>
+        <input id="q" name="q" type="search" placeholder="Search datasets (e.g., dispositions, probate, docket)" />
+        <button type="submit">Search</button>
+      </form>
+
+      <div class="hero-cards">
+        <a class="card" href="./datasets/index.html">
+          <div class="card-title">Browse datasets</div>
+          <div class="card-sub">Filter by state, court, license, format</div>
+        </a>
+        <a class="card" href="./governance.html">
+          <div class="card-title">Data governance</div>
+          <div class="card-sub">Licensing, provenance, moderation, takedowns</div>
+        </a>
+        <a class="card" href="./api-docs/index.html">
+          <div class="card-title">Machine readable</div>
+          <div class="card-sub">CKAN Action API + DCAT examples</div>
+        </a>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Featured datasets</h2>
+      <div id="featured" class="grid"></div>
+      <p class="muted">Data shown here is sample content for UX prototyping.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-row">
+      <div class="muted">Mock website for interactive preview (GitHub Pages).</div>
+      <div class="muted">Designed to map to CKAN 2.10 concepts: datasets, resources, organizations, and APIs.</div>
+    </div>
+  </footer>
+
+  <script src="./assets/app.js"></script>
+  <script>
+    window.OpenCourts.renderFeatured({
+      mountId: 'featured',
+      limit: 3
+    });
+  </script>
+</body>
+</html>

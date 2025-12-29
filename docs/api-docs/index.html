@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>API Docs — OpenCourts.FYI</title>
+  <link rel="stylesheet" href="../assets/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-row">
+      <a class="brand" href="../index.html">OpenCourts.FYI</a>
+      <nav class="nav">
+        <a href="../datasets/index.html">Datasets</a>
+        <a href="../governance.html">Governance</a>
+        <a href="../contribute.html">Contribute</a>
+        <a href="./index.html">API</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="section">
+      <h2>Machine-readable access (mock)</h2>
+      <p class="muted">These examples demonstrate how CKAN APIs and DCAT feeds will look in the real system. In this mock site, the endpoints are static JSON files.</p>
+
+      <div class="grid">
+        <article class="panel"><div class="panel-body">
+          <h3>CKAN Action API (examples)</h3>
+          <ul class="muted">
+            <li><a href="../api/ckan/package_list.json">/api/3/action/package_list</a></li>
+            <li><a href="../api/ckan/package_show_nc_criminal.json">/api/3/action/package_show?id=nc-criminal-dispositions-2024</a></li>
+            <li><a href="../api/ckan/package_show_sc_civil.json">/api/3/action/package_show?id=sc-civil-docket-events-2024</a></li>
+            <li><a href="../api/ckan/package_show_nc_probate.json">/api/3/action/package_show?id=nc-probate-estates-2023</a></li>
+          </ul>
+        </div></article>
+
+        <article class="panel"><div class="panel-body">
+          <h3>DCAT catalog (example)</h3>
+          <p class="muted">In production this is provided by ckanext-dcat.</p>
+          <ul class="muted">
+            <li><a href="../api/dcat_catalog.json">/catalog.json</a></li>
+          </ul>
+        </div></article>
+
+        <article class="panel"><div class="panel-body">
+          <h3>Code samples</h3>
+          <p class="muted">Fetch dataset metadata (Action API):</p>
+          <pre class="panel" style="overflow:auto;"><code class="panel-body">curl -s \
+  https://data.opencourts.fyi/api/3/action/package_show?id=nc-criminal-dispositions-2024 \
+  | jq .result.title</code></pre>
+          <p class="muted">In this mock site, open the JSON links above.</p>
+        </div></article>
+      </div>
+
+      <div class="panel" style="margin-top: 12px;">
+        <div class="panel-body">
+          <h3>Schema / field dictionaries</h3>
+          <p class="muted">Machine readability depends on field dictionaries: name, type, description, constraints. In CKAN this is typically stored in metadata fields or DataStore schema and surfaced on dataset pages.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-row">
+      <div class="muted">Static mocks map to CKAN concepts; production uses live endpoints.</div>
+    </div>
+  </footer>
+</body>
+</html>

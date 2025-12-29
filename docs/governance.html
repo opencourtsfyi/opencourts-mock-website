@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Governance — OpenCourts.FYI</title>
+  <link rel="stylesheet" href="./assets/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-row">
+      <a class="brand" href="./index.html">OpenCourts.FYI</a>
+      <nav class="nav">
+        <a href="./datasets/index.html">Datasets</a>
+        <a href="./governance.html">Governance</a>
+        <a href="./contribute.html">Contribute</a>
+        <a href="./api-docs/index.html">API</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="section">
+      <h2>Data governance</h2>
+      <p class="muted">OpenCourts.FYI governance is designed to keep the portal a public good: transparent, reusable, and compliant with source policies.</p>
+
+      <div class="grid">
+        <article class="panel"><div class="panel-body">
+          <h3>License allow-list</h3>
+          <p class="muted">Only permissive licenses are accepted.</p>
+          <div class="kv">
+            <span class="pill">CC BY 4.0</span>
+            <span class="pill">CC0</span>
+            <span class="pill">PDDL</span>
+          </div>
+          <p class="muted" style="margin-top: 10px;">Disallowed: All Rights Reserved, any NC/ND variants, no-redistribution, proprietary vendor licenses, research-only/education-only.</p>
+        </div></article>
+
+        <article class="panel"><div class="panel-body">
+          <h3>Provenance required</h3>
+          <p class="muted">Every dataset must answer: where did it come from, when, and how was it transformed?</p>
+          <ul class="muted">
+            <li>Source URL and publisher</li>
+            <li>Retrieval timestamp</li>
+            <li>Transformations performed</li>
+            <li>File hash for integrity</li>
+          </ul>
+        </div></article>
+
+        <article class="panel"><div class="panel-body">
+          <h3>Submission workflow</h3>
+          <p class="muted">Community submissions are supported, but publication is gated.</p>
+          <div class="panel" style="margin-top: 10px;"><div class="panel-body muted">
+            Submit → AI checks → Moderator review → Publish
+          </div></div>
+          <p class="muted" style="margin-top: 10px;">Badges (example): AI-reviewed, Human-approved, Provenance-verified.</p>
+        </div></article>
+      </div>
+
+      <div class="panel" style="margin-top: 12px;">
+        <div class="panel-body">
+          <h3>Takedown requests</h3>
+          <p class="muted">If a dataset appears to violate policy or source restrictions, a takedown request can be filed. The default response is to temporarily hide the dataset while moderators investigate, with an audit trail of actions.</p>
+        </div>
+      </div>
+
+      <div class="panel" style="margin-top: 12px;">
+        <div class="panel-body">
+          <h3>Machine-readability expectations</h3>
+          <p class="muted">To support downstream tools and AI agents, resources should publish:</p>
+          <ul class="muted">
+            <li>CSV or JSON data</li>
+            <li>A field dictionary (types, descriptions, allowed values)</li>
+            <li>Stable identifiers (avoid direct personal identifiers)</li>
+            <li>Catalog metadata via CKAN Action API and DCAT</li>
+          </ul>
+          <p class="muted">See <a href="./api-docs/index.html">API docs</a> for examples.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-row">
+      <div class="muted">Governance model: AI-assisted + human moderation.</div>
+    </div>
+  </footer>
+</body>
+</html>

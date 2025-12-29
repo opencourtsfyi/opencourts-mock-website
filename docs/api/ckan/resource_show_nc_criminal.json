@@ -1,0 +1,12 @@
+{
+  "help": "https://docs.ckan.org/en/2.10/api/",
+  "success": true,
+  "result": {
+    "id": "resource-nc-criminal-csv",
+    "package_id": "nc-criminal-dispositions-2024",
+    "name": "Dispositions (sample rows)",
+    "format": "CSV",
+    "url": "../data/nc_criminal_dispositions_2024_sample.csv",
+    "mimetype": "text/csv"
+  }
+}

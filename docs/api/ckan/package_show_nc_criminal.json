@@ -1,0 +1,30 @@
+{
+  "help": "https://docs.ckan.org/en/2.10/api/",
+  "success": true,
+  "result": {
+    "id": "nc-criminal-dispositions-2024",
+    "name": "nc-criminal-dispositions-2024",
+    "title": "NC Criminal Case Dispositions (Sample, 2024)",
+    "notes": "Sample dispositions dataset to demonstrate metadata, provenance, governance, and machine-readable access.",
+    "license_id": "cc-by",
+    "license_title": "Creative Commons Attribution 4.0",
+    "tags": [{"name": "criminal"}, {"name": "dispositions"}, {"name": "north-carolina"}, {"name": "district-court"}],
+    "extras": [
+      {"key": "jurisdiction_state", "value": "North Carolina"},
+      {"key": "jurisdiction_county", "value": "Wake"},
+      {"key": "court_type", "value": "District Court"},
+      {"key": "provenance_source_url", "value": "(mock) https://example.gov/courts/data"},
+      {"key": "provenance_retrieved_at", "value": "2024-11-18T14:03:00Z"},
+      {"key": "provenance_transformations", "value": "Normalized columns; added codebook; hashed file"},
+      {"key": "review_status", "value": "human-approved"}
+    ],
+    "resources": [
+      {
+        "id": "resource-nc-criminal-csv",
+        "name": "Dispositions (sample rows)",
+        "format": "CSV",
+        "url": "../data/nc_criminal_dispositions_2024_sample.csv"
+      }
+    ]
+  }
+}

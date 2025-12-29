@@ -1,0 +1,12 @@
+{
+  "help": "https://docs.ckan.org/en/2.10/api/",
+  "success": true,
+  "result": {
+    "id": "resource-sc-civil-json",
+    "package_id": "sc-civil-docket-events-2024",
+    "name": "Docket events (sample rows)",
+    "format": "JSON",
+    "url": "../data/sc_civil_docket_events_2024_sample.json",
+    "mimetype": "application/json"
+  }
+}

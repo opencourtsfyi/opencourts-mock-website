@@ -1,0 +1,12 @@
+{
+  "help": "https://docs.ckan.org/en/2.10/api/",
+  "success": true,
+  "result": {
+    "id": "resource-nc-probate-csv",
+    "package_id": "nc-probate-estates-2023",
+    "name": "Estates (sample rows)",
+    "format": "CSV",
+    "url": "../data/nc_probate_estates_2023_sample.csv",
+    "mimetype": "text/csv"
+  }
+}

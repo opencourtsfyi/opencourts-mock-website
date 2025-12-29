@@ -1,0 +1,9 @@
+{
+  "help": "https://docs.ckan.org/en/2.10/api/",
+  "success": true,
+  "result": [
+    "nc-criminal-dispositions-2024",
+    "sc-civil-docket-events-2024",
+    "nc-probate-estates-2023"
+  ]
+}

@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NC Probate Estates (Sample, 2023) — OpenCourts.FYI</title>
+  <link rel="stylesheet" href="../assets/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-row">
+      <a class="brand" href="../index.html">OpenCourts.FYI</a>
+      <nav class="nav">
+        <a href="./index.html">Datasets</a>
+        <a href="../governance.html">Governance</a>
+        <a href="../contribute.html">Contribute</a>
+        <a href="../api-docs/index.html">API</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="section">
+      <div class="panel">
+        <div class="panel-body">
+          <div class="kv">
+            <span class="pill">North Carolina</span>
+            <span class="pill">Mecklenburg County</span>
+            <span class="pill">Superior Court</span>
+            <span class="pill">License: PDDL</span>
+          </div>
+
+          <h2 style="margin: 12px 0 8px;">NC Probate Estates (Sample, 2023)</h2>
+          <p class="muted" style="margin: 0 0 12px;">Sample probate dataset to show how governance handles sensitive fields and redaction expectations.</p>
+
+          <div class="kv" style="margin-bottom: 12px;">
+            <span class="badge warn">AI-reviewed</span>
+            <span class="badge good">Human-approved</span>
+          </div>
+
+          <h3>Resources</h3>
+          <table class="table" aria-label="Resources">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Format</th>
+                <th>Access</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Estates (sample rows)</td>
+                <td>CSV</td>
+                <td>
+                  <a href="../data/nc_probate_estates_2023_sample.csv">Download</a>
+                  <span class="muted"> · </span>
+                  <a href="../api/ckan/resource_show_nc_probate.json">Mock resource_show</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>Provenance</h3>
+          <table class="table" aria-label="Provenance">
+            <tbody>
+              <tr>
+                <th>Source</th>
+                <td><a href="#">Official court website (sample placeholder)</a></td>
+              </tr>
+              <tr>
+                <th>Retrieved</th>
+                <td>2023-12-05T09:11:00Z</td>
+              </tr>
+              <tr>
+                <th>Transformations</th>
+                <td>Removed direct identifiers; standardized county/court naming; documented potential sensitive fields.</td>
+              </tr>
+              <tr>
+                <th>File hash (SHA-256)</th>
+                <td class="muted">(mock) 1d0a…bb8c</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>Sensitive-data notes</h3>
+          <div class="panel" style="margin-top: 10px;">
+            <div class="panel-body muted">
+              This sample demonstrates how a moderator workflow might flag sensitive columns (names/addresses) for review.
+              Production governance should ensure publication complies with the source court’s policies and the portal’s license rules.
+            </div>
+          </div>
+
+          <h3>Machine readability</h3>
+          <ul class="muted">
+            <li>Dataset details (Action API): <a href="../api/ckan/package_show_nc_probate.json">package_show</a></li>
+            <li>DCAT feed: <a href="../api/dcat_catalog.json">catalog.json</a></li>
+          </ul>
+
+          <h3>Field dictionary (sample)</h3>
+          <table class="table" aria-label="Field dictionary">
+            <thead>
+              <tr>
+                <th>Field</th>
+                <th>Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>estate_id</td>
+                <td>string</td>
+                <td>Stable estate identifier (non-PII).</td>
+              </tr>
+              <tr>
+                <td>opened_date</td>
+                <td>date</td>
+                <td>Date the estate proceeding opened.</td>
+              </tr>
+              <tr>
+                <td>status</td>
+                <td>string</td>
+                <td>Open / closed / unknown (if published by source).</td>
+              </tr>
+              <tr>
+                <td>notes</td>
+                <td>string</td>
+                <td>Optional notes (should be reviewed for sensitive info).</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-row">
+      <div class="muted">This is a static mock. Production would use CKAN 2.10 + Azure.</div>
+    </div>
+  </footer>
+</body>
+</html>

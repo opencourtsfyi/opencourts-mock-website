@@ -1,0 +1,20 @@
+[
+  {
+    "case_id": "SC-2024-10001",
+    "event_time": "2024-02-11T14:12:00Z",
+    "event_type": "Complaint Filed",
+    "notes": "(sample)"
+  },
+  {
+    "case_id": "SC-2024-10001",
+    "event_time": "2024-03-05T16:55:00Z",
+    "event_type": "Answer Filed",
+    "notes": "(sample)"
+  },
+  {
+    "case_id": "SC-2024-10001",
+    "event_time": "2024-06-19T13:00:00Z",
+    "event_type": "Hearing Scheduled",
+    "notes": "(sample)"
+  }
+]

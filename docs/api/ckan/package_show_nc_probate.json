@@ -1,0 +1,28 @@
+{
+  "help": "https://docs.ckan.org/en/2.10/api/",
+  "success": true,
+  "result": {
+    "id": "nc-probate-estates-2023",
+    "name": "nc-probate-estates-2023",
+    "title": "NC Probate Estates (Sample, 2023)",
+    "notes": "Sample probate dataset to show how governance handles sensitive fields and redaction expectations.",
+    "license_id": "odc-pddl",
+    "license_title": "Open Data Commons Public Domain Dedication and Licence",
+    "tags": [{"name": "probate"}, {"name": "estates"}, {"name": "north-carolina"}],
+    "extras": [
+      {"key": "jurisdiction_state", "value": "North Carolina"},
+      {"key": "jurisdiction_county", "value": "Mecklenburg"},
+      {"key": "court_type", "value": "Superior Court"},
+      {"key": "provenance_retrieved_at", "value": "2023-12-05T09:11:00Z"},
+      {"key": "review_status", "value": "human-approved"}
+    ],
+    "resources": [
+      {
+        "id": "resource-nc-probate-csv",
+        "name": "Estates (sample rows)",
+        "format": "CSV",
+        "url": "../data/nc_probate_estates_2023_sample.csv"
+      }
+    ]
+  }
+}
