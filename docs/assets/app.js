@@ -69,6 +69,8 @@
       return `<span class="badge ${cls}">${escapeHtml(b.label)}</span>`;
     }).join('');
 
+    const detailHref = escapeAttr(resolveSiteHref(dataset.detail_page));
+
     return `
       <article class="panel">
         <div class="panel-body">
@@ -77,7 +79,7 @@
             <div class="muted">${escapeHtml(dataset.license || '')}</div>
           </div>
           <h3 style="margin: 10px 0 8px;">
-            <a href="${escapeAttr(dataset.detail_page)}">${escapeHtml(dataset.title)}</a>
+            <a href="${detailHref}">${escapeHtml(dataset.title)}</a>
           </h3>
           <p class="muted" style="margin: 0 0 10px;">${escapeHtml(dataset.description || '')}</p>
           <div class="kv" style="margin-bottom: 10px;">${badges}</div>
@@ -85,6 +87,26 @@
         </div>
       </article>
     `;
+  }
+
+  function resolveSiteHref(path) {
+    const clean = (path || '').toString().replace(/^\/+/, '');
+    const markers = ['/datasets/', '/api-docs/', '/api/', '/data/', '/assets/'];
+
+    let root = window.location.pathname || '/';
+    for (const marker of markers) {
+      const idx = root.indexOf(marker);
+      if (idx !== -1) {
+        root = root.slice(0, idx + 1);
+        break;
+      }
+    }
+
+    if (!root.endsWith('/')) {
+      root = root.slice(0, root.lastIndexOf('/') + 1);
+    }
+
+    return `${root}${clean}`;
   }
 
   function escapeHtml(s) {
