@@ -6,7 +6,7 @@
     "package_id": "nc-probate-estates-2023",
     "name": "Estates (sample rows)",
     "format": "CSV",
-    "url": "../data/nc_probate_estates_2023_sample.csv",
+    "url": "/data/nc_probate_estates_2023_sample.csv",
     "mimetype": "text/csv"
   }
 }

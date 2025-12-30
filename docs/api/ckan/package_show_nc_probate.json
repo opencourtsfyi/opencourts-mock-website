@@ -21,7 +21,7 @@
         "id": "resource-nc-probate-csv",
         "name": "Estates (sample rows)",
         "format": "CSV",
-        "url": "../data/nc_probate_estates_2023_sample.csv"
+        "url": "/data/nc_probate_estates_2023_sample.csv"
       }
     ]
   }

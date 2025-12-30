@@ -23,7 +23,7 @@
         "id": "resource-nc-criminal-csv",
         "name": "Dispositions (sample rows)",
         "format": "CSV",
-        "url": "../data/nc_criminal_dispositions_2024_sample.csv"
+        "url": "/data/nc_criminal_dispositions_2024_sample.csv"
       }
     ]
   }

@@ -28,6 +28,8 @@
 - **Staging**: interactive preproduction CKAN for testing deployments and extensions.
 - **Production**: public CKAN deployment.
 
+**Canonical URL**: The canonical deployment for the static mock portal is the custom domain `https://opencourts.fyi` (see `docs/CNAME`). Any `github.io/<repo>` project-site URL is considered **non-canonical** and may not support all root-relative URLs referenced by machine-readable feeds.
+
 ### Core Azure building blocks
 - **Azure Container Apps**: runs containers for CKAN, Solr, Redis, worker(s), and optional datapusher/xloader.
 - **Azure Database for PostgreSQL Flexible Server**: CKAN metadata DB + DataStore DB.

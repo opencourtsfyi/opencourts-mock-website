@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>API Docs — OpenCourts.FYI</title>
   <link rel="stylesheet" href="../assets/style.css" />
+  <link rel="canonical" href="https://opencourts.fyi/api-docs/index.html" />
 </head>
 <body>
   <header class="site-header">
@@ -39,7 +40,7 @@
           <h3>DCAT catalog (example)</h3>
           <p class="muted">In production this is provided by ckanext-dcat.</p>
           <ul class="muted">
-            <li><a href="../api/dcat_catalog.json">/catalog.json</a></li>
+            <li><a href="../api/dcat_catalog.json">/api/dcat_catalog.json</a></li>
           </ul>
         </div></article>
 
@@ -47,9 +48,9 @@
           <h3>Code samples</h3>
           <p class="muted">Fetch dataset metadata (Action API):</p>
           <pre class="panel" style="overflow:auto;"><code class="panel-body">curl -s \
-  https://data.opencourts.fyi/api/3/action/package_show?id=nc-criminal-dispositions-2024 \
+  https://opencourts.fyi/api/ckan/package_show_nc_criminal.json \
   | jq .result.title</code></pre>
-          <p class="muted">In this mock site, open the JSON links above.</p>
+          <p class="muted">Canonical mock portal: <a href="https://opencourts.fyi">opencourts.fyi</a> (custom domain). The GitHub Pages project URL is non-canonical and may not support all root-relative links.</p>
         </div></article>
       </div>
 

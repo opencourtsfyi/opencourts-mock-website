@@ -1,0 +1,34 @@
+# OpenCourts.FYI (Mock Portal)
+
+This repository contains a static mock portal for OpenCourts.FYI, designed to demonstrate dataset catalog UX and machine-readable endpoints (CKAN-style Action API JSON + a DCAT JSON-LD catalog).
+
+## Canonical site
+
+The canonical deployment of this mock portal is:
+
+- https://opencourts.fyi/
+
+The GitHub Pages project-site URL (github.io/<repo>) is non-canonical and may not support all root-relative links referenced by machine-readable feeds.
+
+## Key human pages
+
+- Home: https://opencourts.fyi/index.html
+- Datasets index: https://opencourts.fyi/datasets/index.html
+- API docs: https://opencourts.fyi/api-docs/index.html
+- Governance: https://opencourts.fyi/governance.html
+- Contribute (mock): https://opencourts.fyi/contribute.html
+
+## Key machine-readable endpoints (static mocks)
+
+- DCAT catalog (JSON-LD): https://opencourts.fyi/api/dcat_catalog.json
+- CKAN Action API examples:
+  - Package list: https://opencourts.fyi/api/ckan/package_list.json
+  - Package show (NC criminal): https://opencourts.fyi/api/ckan/package_show_nc_criminal.json
+  - Package show (SC civil): https://opencourts.fyi/api/ckan/package_show_sc_civil.json
+  - Package show (NC probate): https://opencourts.fyi/api/ckan/package_show_nc_probate.json
+
+## Data files (sample)
+
+- https://opencourts.fyi/data/nc_criminal_dispositions_2024_sample.csv
+- https://opencourts.fyi/data/nc_probate_estates_2023_sample.csv
+- https://opencourts.fyi/data/sc_civil_docket_events_2024_sample.json
