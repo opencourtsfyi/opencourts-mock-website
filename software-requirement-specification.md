@@ -246,6 +246,11 @@ The following requirements ensure that implementation decisions remain compatibl
     - Known issues and limitations
     - High-level plans for the coming year
 
+- **GC-8: AI self-identification and labeling**
+  - Any automated agent (including AI systems) interacting with humans on behalf of the project shall clearly self-identify as automated at the start of each interaction.
+  - AI-generated outputs used in review, moderation, or publication decisions shall be labeled as AI-generated in the UI and in any exported artifacts (e.g., JSON reports).
+  - The system shall prevent AI-generated content from being displayed in a way that could reasonably be interpreted as a human-authored statement (e.g., by including an “AI-generated” label adjacent to the content).
+
 ---
 
 ## 5. Security Requirements

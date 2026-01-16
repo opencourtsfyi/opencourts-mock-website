@@ -18,6 +18,7 @@ The project is designed as a self-correcting institution that learns, adapts, an
 OpenCourts.fyi is grounded in the qualities of durable, self-correcting institutions.
 
 - **Transparency:** All data, code, documentation, and governance decisions are public.
+- **AI disclosure:** Any automated agent (including AI systems) interacting with humans on behalf of OpenCourts.fyi clearly self-identifies as automated, and AI-generated content used in governance is labeled as such.
 - **Truthiness evaluation:** We commit to assessing the accuracy, provenance, and reliability of all data we publish, including documenting limitations and uncertainty.
 - **Feedback loops:** Errors and gaps are surfaced through automated checks and community reporting.
 - **Adaptability:** The platform evolves as courts, laws, and community needs change.
@@ -108,6 +109,8 @@ The review is intentionally brief to respect volunteer capacity.
 - No personally identifiable information beyond what is legally public in court records is published.
 - Sensitive data, including juvenile or sealed records, is excluded or redacted.
 - All code and governance policies are open-source.
+- Any automated agent (including AI systems) interacting with humans on behalf of OpenCourts.fyi self-identifies as automated at the start of the interaction.
+- AI-generated outputs used in governance, review, or publication decisions are labeled as AI-generated and are not represented as human judgment.
 - Truthiness evaluations include ethical considerations around misinterpretation, bias, and context.
 
 ## 7. Sustainability
