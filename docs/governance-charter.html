@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Governance Charter — OpenCourts.FYI</title>
+  <link rel="stylesheet" href="./assets/style.css" />
+  <link rel="canonical" href="https://opencourts.fyi/governance-charter.html" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-row">
+      <a class="brand" href="./index.html">OpenCourts.FYI</a>
+      <nav class="nav">
+        <a href="./datasets/index.html">Datasets</a>
+        <a href="./governance.html">Governance</a>
+        <a href="./contribute.html">Contribute</a>
+        <a href="./api-docs/index.html">API</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="section">
+      <h2>Governance Charter</h2>
+      <p class="muted">A volunteer-led, self-correcting justice data project for North and South Carolina.</p>
+
+      <div class="panel" style="margin-top: 12px;">
+        <div class="panel-body muted">
+          <div><strong>Effective date:</strong> 2026-01-16</div>
+          <div><strong>Status:</strong> Living document; updated via public pull request</div>
+          <div style="margin-top: 8px;">Looking for dataset policy details? See <a href="./governance.html">Data governance</a>.</div>
+        </div>
+      </div>
+
+      <div style="margin-top: 18px; display: grid; gap: 14px;">
+        <article class="panel"><div class="panel-body">
+          <h3>1. Mission</h3>
+          <p class="muted">OpenCourts.fyi is a volunteer-run public-interest project dedicated to making court data in North Carolina and South Carolina transparent, accessible, and understandable.</p>
+          <p class="muted">Our goal is to support communities, journalists, researchers, and advocates by providing reliable information about how the courts operate.</p>
+          <p class="muted">The project is designed as a self-correcting institution that learns, adapts, and improves through open participation and transparent processes.</p>
+        </div></article>
+
+        <article class="panel"><div class="panel-body">
+          <h3>2. Guiding Principles</h3>
+          <ul class="muted">
+            <li><strong>Transparency:</strong> All data, code, documentation, and governance decisions are public.</li>
+            <li><strong>Truthiness evaluation:</strong> We commit to assessing the accuracy, provenance, and reliability of all data we publish, including documenting limitations and uncertainty.</li>
+            <li><strong>Feedback loops:</strong> Errors and gaps are surfaced through automated checks and community reporting.</li>
+            <li><strong>Adaptability:</strong> The platform evolves as courts, laws, and community needs change.</li>
+            <li><strong>Pluralism:</strong> Anyone may contribute, review, or challenge data or decisions.</li>
+            <li><strong>Independence:</strong> No single person or organization controls the project.</li>
+            <li><strong>Sustainability:</strong> Processes are intentionally lightweight so volunteers can maintain them.</li>
+          </ul>
+        </div></article>
+
+        <article class="panel"><div class="panel-body">
+          <h3>3. Organizational Structure</h3>
+          <p class="muted">OpenCourts.fyi is maintained by a distributed group of volunteers who contribute time, expertise, and technical support as they are able.</p>
+          <p class="muted">There is no paid staff, no formal board, and no financial activity beyond basic hosting and domain costs.</p>
+
+          <h4 style="margin-top: 12px;">3.1 Volunteer Maintainers</h4>
+          <p class="muted">A small group of maintainers oversees data ingestion, validation, CKAN configuration, documentation, schema updates, community submissions, and issue resolution.</p>
+          <p class="muted">Responsibilities rotate informally based on availability.</p>
+
+          <h4 style="margin-top: 12px;">3.2 Community Contributors</h4>
+          <p class="muted">Anyone may submit dashboards, analyses, or data quality reports; propose improvements; participate in discussions; or flag errors.</p>
+          <p class="muted">Participation is open, transparent, and asynchronous.</p>
+        </div></article>
+
+        <article class="panel"><div class="panel-body">
+          <h3>4. Roles and Responsibilities</h3>
+
+          <h4 style="margin-top: 12px;">4.1 Maintainers</h4>
+          <ul class="muted">
+            <li>Maintain ingestion pipelines and platform uptime.</li>
+            <li>Review and merge pull requests.</li>
+            <li>Approve or revise community dashboard submissions.</li>
+            <li>Publish schema updates and changelogs.</li>
+            <li>Document data provenance and known limitations.</li>
+            <li>Uphold the project’s commitment to evaluating the truthiness of data.</li>
+          </ul>
+
+          <h4 style="margin-top: 12px;">4.2 Contributors</h4>
+          <ul class="muted">
+            <li>Submit dashboards, analyses, or corrections.</li>
+            <li>Participate in discussions and reviews.</li>
+            <li>Help identify gaps in county-level data.</li>
+            <li>Provide local context and insights.</li>
+          </ul>
+
+          <h4 style="margin-top: 12px;">4.3 Users</h4>
+          <ul class="muted">
+            <li>Report issues or inaccuracies.</li>
+            <li>Suggest improvements.</li>
+            <li>Use the data responsibly and transparently.</li>
+          </ul>
+        </div></article>
+
+        <article class="panel"><div class="panel-body">
+          <h3>5. Governance Processes</h3>
+
+          <h4 style="margin-top: 12px;">5.1 Decision-Making</h4>
+          <p class="muted">Decisions are made through open discussion on GitHub or public communication channels.</p>
+          <p class="muted">Maintainers seek consensus whenever possible.</p>
+          <p class="muted">If consensus is unclear, maintainers make a decision based on transparency, data accuracy, sustainability for volunteers, and community input.</p>
+
+          <h4 style="margin-top: 12px;">5.2 Data Governance</h4>
+          <ul class="muted">
+            <li><strong>Versioned schemas:</strong> All datasets use versioned schemas with documented changes.</li>
+            <li><strong>Automated validation:</strong> Pipelines flag missing fields, schema drift, and anomalies.</li>
+            <li><strong>Truthiness evaluation:</strong> Data is verified against official sources when possible, uncertainty is documented, and provenance notes are published.</li>
+            <li><strong>Public documentation:</strong> Data dictionaries, known issues, and limitations are openly published.</li>
+          </ul>
+
+          <h4 style="margin-top: 12px;">5.3 Community Dashboard Workflow</h4>
+          <ul class="muted">
+            <li>Contributors submit dashboards through CKAN.</li>
+            <li>Automated checks flag metadata or formatting issues.</li>
+            <li>Maintainers review submissions as time allows.</li>
+            <li>Contributors may revise and resubmit.</li>
+          </ul>
+
+          <h4 style="margin-top: 12px;">5.4 Issue Reporting</h4>
+          <ul class="muted">
+            <li>Anyone may file issues on GitHub.</li>
+            <li>Maintainers triage issues based on severity and volunteer availability.</li>
+            <li>Critical issues, such as broken ingestion, receive priority attention.</li>
+          </ul>
+
+          <h4 style="margin-top: 12px;">5.5 Annual Review</h4>
+          <p class="muted">Once per year, maintainers publish a short public note summarizing data coverage, improvements, known issues, and plans for the coming year.</p>
+          <p class="muted">The review is intentionally brief to respect volunteer capacity.</p>
+        </div></article>
+
+        <article class="panel"><div class="panel-body">
+          <h3>6. Ethical and Privacy Commitments</h3>
+          <ul class="muted">
+            <li>No personally identifiable information beyond what is legally public in court records is published.</li>
+            <li>Sensitive data, including juvenile or sealed records, is excluded or redacted.</li>
+            <li>All code and governance policies are open-source.</li>
+            <li>Truthiness evaluations include ethical considerations around misinterpretation, bias, and context.</li>
+          </ul>
+        </div></article>
+
+        <article class="panel"><div class="panel-body">
+          <h3>7. Sustainability</h3>
+          <p class="muted">Because OpenCourts.fyi is volunteer-run, all processes must be simple, documented, and automatable.</p>
+          <ul class="muted">
+            <li>No workflow should depend on a single person.</li>
+            <li>The project may evolve slowly based on volunteer availability.</li>
+            <li>The community is encouraged to step in when maintainers are unavailable.</li>
+          </ul>
+        </div></article>
+
+        <article class="panel"><div class="panel-body">
+          <h3>8. Amendments</h3>
+          <p class="muted">This charter may be updated through a public GitHub pull request, open discussion, and maintainer consensus.</p>
+        </div></article>
+
+        <article class="panel"><div class="panel-body">
+          <h3>9. Public Accountability</h3>
+          <p class="muted">OpenCourts.fyi commits to publishing governance decisions, maintaining open access to data and documentation, responding to community feedback as volunteer time allows, and upholding rigorous truthiness evaluation standards.</p>
+        </div></article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-row">
+      <div class="muted">This charter is a living document.</div>
+    </div>
+  </footer>
+</body>
+</html>
