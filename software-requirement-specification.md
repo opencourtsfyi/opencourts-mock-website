@@ -205,6 +205,47 @@ At a high level, opencourts.fyi will consist of:
 - **DG-8: Corrections and annotations**
   - The system shall allow maintainers to add correction notes to datasets and point to updated versions or official corrections from courts.
 
+### 4.4 Governance Charter Compliance (Institutional Requirements)
+
+The following requirements ensure that implementation decisions remain compatible with the OpenCourts.fyi Governance Charter (transparency, pluralism, independence, sustainability, and truthiness evaluation).
+
+**Charter reference:** See the canonical charter text in `governance-charter.md` and the website-rendered version in `docs/governance-charter.html`.
+
+- **GC-1: Public governance decision log**
+  - The project shall maintain a public, linkable log of governance decisions (e.g., GitHub issues/discussions/PRs) including the decision, rationale, and date.
+  - Decisions related to publication status, takedowns, major schema changes, and policy changes shall be logged.
+
+- **GC-2: Truthiness evaluation metadata**
+  - For each published dataset, the system shall support recording and displaying a “truthiness evaluation” summary that includes:
+    - What the dataset claims to represent (scope/coverage)
+    - Verification steps taken (if any) against official sources
+    - Known limitations, uncertainty, and potential biases
+    - Provenance links and timestamps
+
+- **GC-3: Community challenge and re-evaluation workflow**
+  - Any user shall be able to challenge a dataset’s accuracy, provenance, or interpretation via a public issue.
+  - Maintainers/moderators shall be able to attach an outcome (e.g., acknowledged, corrected, disputed, withdrawn) and link to resulting changes.
+
+- **GC-4: Public moderation outcomes (with safe redactions)**
+  - For community submissions and takedown requests, the system shall publish the outcome and a brief rationale.
+  - The system shall support redaction of sensitive details in public rationales when necessary (e.g., to avoid amplifying PII), while still preserving an auditable record for maintainers.
+
+- **GC-5: Low-friction participation**
+  - Contributor registration (if required) shall be open and lightweight.
+  - The project shall provide a non-authenticated contribution path for reporting issues and suggesting improvements (e.g., GitHub issues or a public contact method).
+
+- **GC-6: Independence and “bus factor” resilience**
+  - No critical workflow (publishing, takedowns, schema releases) shall depend on a single individual.
+  - The project shall maintain at least two administrators/maintainers with the ability to operate and recover core systems.
+  - Administrative access recovery (e.g., credential rotation, access handoff, break-glass procedure) shall be documented.
+
+- **GC-7: Annual review publication**
+  - At least once per year, maintainers shall publish a brief public review summarizing:
+    - Data coverage and major changes
+    - Key improvements
+    - Known issues and limitations
+    - High-level plans for the coming year
+
 ---
 
 ## 5. Security Requirements
