@@ -9,7 +9,9 @@
 
 ### 1.1 Purpose
 
-This document defines the software requirements for opencourts.fyi, a multi-state open court data portal initially focused on North and South Carolina.
+This document defines the software requirements for opencourts.fyi.
+
+This SRS is intentionally scoped to a **Phase 0 prototype** whose goal is to demonstrate that annual reports on South Carolina probate courts from sccourts.org can be ingested, processed into normalized data, published as open downloads, consumed by Power BI, and presented as a dataset on a static website.
 
 OpenCourts.FYI delivers a “public good” defined by two attributes:
 
@@ -26,15 +28,22 @@ OpenCourts.FYI delivers a “public good” defined by two attributes:
 
 ### 1.2 Scope
 
-opencourts.fyi will:
+The Phase 0 prototype will:
 
-- Aggregate, document, and publish court-related datasets from official court websites and other public sources.
-- Provide human-friendly access (accessible web UI and documentation).
-- Provide machine-friendly access (CSV/JSON endpoints, data catalogues, APIs) for downstream tools and AI agents.
-- Support community-contributed datasets and visualizations with AI + human moderation.
-- Provide transparent provenance and compliance with originating court policies.
-- Be deployable to production via Terraform.
-- Support a local development environment.
+- Ingest annual reports on probate courts from sccourts.org (initial focus: a single annual report / year) and archive the raw source artifact(s).
+- Process and normalize the ingested data into a tabular, analytics-friendly structure.
+- Publish processed outputs as **public downloads** in **Parquet and CSV** formats.
+- Provide human-friendly access via an accessible **static website** that simulates a CKAN-style catalog.
+- Provide machine-friendly access via **purely static** JSON catalog/metadata artifacts.
+- Provide transparent provenance and compliance notes referencing originating court policies.
+- Support a local development environment for running ingestion/processing and generating the static site artifacts.
+
+The Phase 0 prototype will **not**:
+
+- Implement CKAN or a CKAN API.
+- Provide a dynamic query API (no server-side pagination/filtering endpoints).
+- Implement community submission or takedown workflows in software (policy-only/manual processes for Phase 0).
+- Require end-user accounts or logins for public access.
 - Exclusively host legally open, reusable, and redistributable data. Thus, only permissively-licensed content is allowed (no unlicensed or restrictively licensed content).
 
   **Allowed Licenses:**
@@ -56,9 +65,10 @@ opencourts.fyi will:
 
 **Primary users:**
 - Upstream public good collaborators: Measures for Justice, SCProbateData.org
-- Data scientists / analysts: need clean datasets, metadata, and APIs for modeling and visualization.
+- Data scientists / analysts: need clean datasets, metadata, and stable download URLs for modeling and visualization.
+- BI developers / analysts using Power BI: need normalized, refreshable Parquet/CSV datasets and stable schemas.
 - Journalists / watchdogs: need interpretable data, story-ready visualizations, provenance, and context.
-- Artificial intelligence agents (tools, assistants): need machine-readable datasets, schemas, and catalogues for automated analysis and integration.
+- Artificial intelligence agents (tools, assistants): need machine-readable metadata and catalogues for automated analysis and integration.
 
 **Secondary users:**
 - Nonprofit advocates, government officials, civic technologists, researchers, and community members submitting data or visualizations.
@@ -69,12 +79,11 @@ opencourts.fyi will:
 
 At a high level, opencourts.fyi will consist of:
 
-- **Web portal and API layer:** CKAN-based (or CKAN-like) data portal for datasets, metadata, and downloads.
-- **Data ingestion and processing:** Scripts / serverless functions to collect and clean data from court sites and other sources.
-- **Storage layer:** Relational DB for metadata and structured data; object storage for files.
-- **Visualization layer:** Static/external visualizations.
-- **AI review and governance layer:** AI-assisted review pipeline for community submissions and compliance checking.
-- **Infrastructure-as-code:** Terraform-based infrastructure in cloud (e.g., Azure) with GitOps-style workflow, plus local dev environment.
+- **Static catalog website:** A static site that simulates a CKAN-style catalog (dataset listing + dataset detail pages).
+- **Static metadata (“API”) artifacts:** Purely static JSON files (e.g., dataset list, dataset metadata, and DCAT-style catalogue) served by the static site.
+- **Data ingestion and processing pipeline:** Scripts and/or scheduled jobs to retrieve annual reports from sccourts.org, extract tables, and normalize the data.
+- **Artifact publishing:** Public hosting for published Parquet/CSV downloads and static JSON metadata.
+- **Analytics consumption:** Power BI connects to the published normalized outputs via stable public URLs.
 
 ---
 
@@ -83,42 +92,54 @@ At a high level, opencourts.fyi will consist of:
 ### 3.1 Dataset Management
 
 - **FR-1: Create and manage datasets**
-  - Authorized users can create datasets with title, description, tags, jurisdiction (state, county), court level.
-  - Source information (URLs, institution names).
-  - Provenance metadata (see Section 4).
-  - Upload of structured data files (CSV, JSON, XLSX) and documentation files (PDF, MD, HTML, etc.).
-  - Linking to remote resources (e.g., files on court websites, APIs, or data lakes).
+  - Maintainers can define datasets using a repository-managed manifest that drives both the static website pages and the static metadata artifacts.
+  - Each dataset definition includes at minimum: title, description, tags, jurisdiction, court level, source institution, and source URLs.
+  - Each dataset definition includes provenance metadata (see Section 3.3).
+  - Datasets are published by updating the manifest and publishing generated artifacts (static pages + static JSON + downloadable files).
+
+- **FR-1a: Ingest and normalize SC probate annual reports**
+  - The system ingests annual probate court report(s) from sccourts.org for a specified year.
+  - The ingestion process extracts relevant tables and normalizes the data into a documented schema suitable for analytics and BI.
+  - The processing step performs basic validation (e.g., required fields present, correct types, non-negative numeric values where applicable) and fails fast on unrecoverable errors.
 
 - **FR-2: Dataset versions**
-  - Support for dataset versioning (or equivalent metadata) when datasets are updated or re-ingested.
-  - Users can see when a dataset was last updated and, where possible, what changed.
+  - The system supports annual releases for probate court annual reports (e.g., partitioned by year).
+  - Each published dataset release includes: `year`, `published_at`, and `schema_version`.
+  - Users can see when a dataset was last updated and, where feasible, a short change summary.
 
 - **FR-3: Dataset search and discovery**
-  - Users can search datasets by keywords, tags, jurisdiction, date ranges, court type, data type.
-  - Users can filter datasets using facets (state, county, court level, topic, reviewed/unreviewed).
+  - The static website provides basic dataset discovery (listing and optional client-side search/filter by keyword/tags/jurisdiction).
 
 ### 3.2 Data Access, APIs, and Catalogs
 
-- **FR-4: CSV and JSON access**
-  - Endpoints that return CSV and JSON formatted data for each dataset (or selected resources).
-  - Support for pagination and basic query/filter parameters where feasible.
+- **FR-4: Public Parquet and CSV downloads**
+  - Each published dataset provides downloadable files in **Parquet** and **CSV** formats.
+  - Downloads are publicly accessible via stable URLs.
+  - The prototype does not provide a dynamic query API (no server-side pagination, filtering, or parameterized endpoints).
 
 - **FR-5: Machine-readable catalogues**
-  - Expose machine-readable catalogues (e.g., DCAT-style or CKAN API endpoints) that list datasets, resources (files, APIs), and metadata (schemas, field descriptions, provenance fields).
-  - Catalogues accessible to automated tools and AI agents without requiring authentication for public datasets.
+  - Expose **purely static** machine-readable catalogues (e.g., DCAT-style JSON) that list datasets, resources (downloads), and core metadata.
+  - Catalogues are accessible to automated tools and AI agents without requiring authentication for public datasets.
 
 - **FR-6: Schema / field metadata**
-  - Allow maintainers to document field-level metadata (name, description, type, allowed values) for key datasets.
-  - Field metadata accessible via UI and API for machine consumption.
+  - Maintainers can document field-level metadata (name, description, type, allowed values) for the normalized probate annual report dataset.
+  - Field metadata is accessible via the static website and via static machine-readable metadata.
+
+- **FR-6a: Power BI consumption of normalized data**
+  - The published Parquet/CSV outputs are structured and stable enough to be consumed by Power BI (including refresh scenarios).
+  - The project documents the expected schema and how to connect Power BI to the public downloads.
 
 ### 3.3 Provenance and Court Terms of Use Compliance
 
 - **FR-7: Provenance metadata**
   - For each dataset derived from court sources, store at minimum: source URLs, source institution, date/time retrieved, file hash, description of transformations, terms of use or policy reference.
 
+- **FR-7a: Raw source archiving**
+  - The system retains an archive of the raw source artifact(s) used to produce each published dataset release, including a cryptographic hash.
+
 - **FR-8: Provenance display**
   - Display a human-readable provenance summary on each dataset page.
-  - Provenance metadata accessible via API for machine use.
+  - Provenance metadata accessible via static machine-readable metadata.
 
 - **FR-9: Court Terms of Use compliance notice**
   - Indicate the relevant court Terms of Use on each dataset page.
@@ -129,47 +150,18 @@ At a high level, opencourts.fyi will consist of:
 
 ### 3.4 Community Contributions & Governance
 
-- **FR-11: Community dataset submissions**
-  - Registered community contributors can submit new datasets or resources (including links and visualizations).
-  - Submissions enter a pending or draft state and are not publicly visible until approved.
+Community submissions and takedown handling are **policy-only/manual processes** in Phase 0.
+The prototype does not implement submission forms, moderation tooling, AI review, badges, or automated takedown workflows in software.
 
-- **FR-12: Community visualization submissions**
-  - Contributors can submit embedded visualizations (excluding Power BI) as resources.
-  - Contributors must provide title, description, tags, source dataset(s) and links, and description of methodology.
+### 3.5 Local Development and Environment Management
 
-- **FR-13: AI-assisted review**
-  - On submission, the system triggers an AI review process that checks for presence and quality of provenance metadata, flags potential violations of court Terms of Use and portal policies, flags potential PII or sensitive content, and assesses metadata completeness and clarity.
-  - The AI review produces a structured report (scores, flags, recommended actions) stored with the submission.
+- **FR-11: Local dev environment**
+  - The prototype shall be runnable locally on developer machines using documented setup scripts.
+  - Developers can run ingestion/processing to produce the normalized Parquet/CSV outputs and generate the static site + static metadata artifacts.
 
-- **FR-14: Human moderation**
-  - A human moderator is required to approve, reject, or request changes on each community submission.
-  - Moderators see submission details, AI review report, submission history, and user identity.
-  - Only moderators (or higher) can change a submission from pending to published.
-
-- **FR-15: Badges and review indicators**
-  - The system provides visible indicators on datasets: whether they have been AI-reviewed, human-reviewed/approved, and whether provenance has been verified.
-  - Badges are driven from internal metadata fields and not directly editable by contributors.
-
-- **FR-16: Takedown request handling**
-  - The system provides a public takedown request mechanism (e.g., form or contact) that allows requesters to identify datasets or resources and state reasons (e.g., PII, legal risk, errors).
-  - Moderators have a workflow to temporarily hide datasets/resources, review and decide on takedown, and document resolution (e.g., remove, redact, reject request).
-
-### 3.5 Visualization
-
-- **FR-17: Visualization linkage**
-  - Each embedded visualization shall be associated with one or more underlying datasets in the catalog.
-  - Clear indication of whether the visualization is official or community-contributed.
-
-### 3.6 Local Development and Environment Management
-
-- **FR-18: Local dev environment**
-  - The system shall be runnable locally on developer machines with containerized services (e.g., Docker Compose) or documented setup scripts.
-  - Local instances of portal (CKAN or equivalent), database, minimal storage.
-  - Developers can create test datasets, test AI review integration using mocked or dev credentials, and run unit and integration tests.
-
-- **FR-19: Staging and production environments**
-  - The system supports at least a staging environment for testing and a production environment for public access.
-  - Configuration (URLs, credentials, feature flags) shall be environment-specific and not hard-coded.
+- **FR-12: Staging and production environments**
+  - The project supports at least a staging site and a production site for public access.
+  - Configuration (e.g., base URLs for downloads) shall be environment-specific and not hard-coded.
 
 ---
 
@@ -189,18 +181,18 @@ At a high level, opencourts.fyi will consist of:
 ### 4.2 Community Contributions Governance
 
 - **DG-4: Contributor terms**
-  - Contributors shall agree to terms stating that they have rights to publish the data/visualizations, their submissions comply with applicable court Terms of Use and law, and they will not upload malicious, discriminatory, or privacy-violating content.
+  - If the project accepts community contributions during Phase 0, contributors shall agree to terms stating that they have rights to publish the data, their submissions comply with applicable court Terms of Use and law, and they will not upload malicious, discriminatory, or privacy-violating content.
 
 - **DG-5: Provenance requirement**
   - Community submissions shall be required to provide data sources and URLs, and indicate whether data is original, derived, or repackaged.
 
 - **DG-6: Auditability**
-  - For each dataset and community submission, the system shall log who submitted it, who approved it, AI review results, and timestamps of all key actions.
+  - For each dataset and any community submission accepted during Phase 0, the project shall maintain an auditable record (e.g., via Git history, issues, and pull requests) of who submitted it, who approved it, and timestamps of key actions.
 
 ### 4.3 Takedown and Corrections
 
 - **DG-7: Takedown workflow**
-  - The system shall implement a documented process for handling requests, including time frame for acknowledgment, temporary hide while under review (for serious issues), and escalation path (e.g., to legal partners or court liaisons) where needed.
+  - The project shall maintain a documented, manual process for handling requests, including time frame for acknowledgment, temporary hide while under review (for serious issues), and escalation path (e.g., to legal partners or court liaisons) where needed.
 
 - **DG-8: Corrections and annotations**
   - The system shall allow maintainers to add correction notes to datasets and point to updated versions or official corrections from courts.
@@ -224,7 +216,7 @@ The following requirements ensure that implementation decisions remain compatibl
 
 - **GC-3: Community challenge and re-evaluation workflow**
   - Any user shall be able to challenge a dataset’s accuracy, provenance, or interpretation via a public issue.
-  - Maintainers/moderators shall be able to attach an outcome (e.g., acknowledged, corrected, disputed, withdrawn) and link to resulting changes.
+  - Maintainers shall be able to attach an outcome (e.g., acknowledged, corrected, disputed, withdrawn) and link to resulting changes.
 
 - **GC-4: Public moderation outcomes (with safe redactions)**
   - For community submissions and takedown requests, the system shall publish the outcome and a brief rationale.
@@ -258,12 +250,11 @@ The following requirements ensure that implementation decisions remain compatibl
 ### 5.1 Access Control
 
 - **SEC-1: Roles and permissions**
-  - Roles include at least: Anonymous (read-only access to public data), Contributor (can submit datasets/resources for review), Moderator (can approve/reject submissions and manage content), Admin (full system configuration and user management).
-  - Only moderators/admins can change review status, set or override review badges, and publish to production.
+  - Roles include at least: Anonymous (read-only access to public data and downloads) and Maintainer (publishes/updates datasets and site artifacts).
+  - The prototype does not require end-user accounts for public access.
 
 - **SEC-2: Authentication**
-  - Admins and moderators shall use strong authentication, ideally via federated identity (e.g., SSO with MFA).
-  - Contributor accounts shall require strong passwords and rate-limited login attempts.
+  - Maintainers shall use strong authentication for any systems used to publish the site and datasets (e.g., GitHub with MFA).
 
 ### 5.2 Data and Infrastructure Security
 
@@ -282,12 +273,11 @@ The following requirements ensure that implementation decisions remain compatibl
 ### 5.3 Application Security
 
 - **SEC-6: Input validation & sanitization**
-  - User-submitted content (titles, descriptions, HTML, embeds) shall be sanitized to prevent XSS and injection.
-  - Embed support shall be restricted to safe patterns (e.g., whitelisted domains).
+  - Any rendered HTML content included in the static site shall be sanitized/controlled to prevent XSS.
 
 - **SEC-7: Dependency management**
   - The system shall track dependencies and apply security patches regularly.
-  - Only vetted CKAN extensions or libraries shall be used.
+  - Only vetted libraries shall be used.
 
 - **SEC-8: Logging & anomaly detection**
   - Authentication failures, unexpected errors, and unusual submission patterns shall be logged.
@@ -332,8 +322,8 @@ The following requirements ensure that implementation decisions remain compatibl
 ### 7.1 Infrastructure-as-Code with Terraform
 
 - **INF-1: Terraform-managed resources**
-  - Core infrastructure (compute, networking, storage, database, monitoring) shall be defined in Terraform.
-  - Both staging and production environments shall be defined using Terraform with environment-specific variables.
+  - Phase 0 may be deployed as a static website without Terraform.
+  - If/when managed infrastructure is introduced, core resources (hosting, storage, monitoring) should be defined in Terraform with environment-specific variables.
 
 - **INF-2: Git-based workflows**
   - Infrastructure configuration shall be stored in Git.
@@ -349,8 +339,8 @@ The following requirements ensure that implementation decisions remain compatibl
 ### 7.3 Local Development
 
 - **INF-4: Local environment parity**
-  - Developers shall be able to run a local stack (portal + DB + minimal storage) with a small sample dataset and mocked or configurable AI review endpoints.
-  - Documentation shall exist for setup, running tests, and contributing via Git.
+  - Developers shall be able to run ingestion/processing locally and generate the static site artifacts using a small sample dataset.
+  - Documentation shall exist for setup and contributing via Git.
 
 ---
 
@@ -361,7 +351,7 @@ The following requirements ensure that implementation decisions remain compatibl
 
 - **NFR-2: Performance**
   - Typical dataset search and page loads shall complete within a few seconds under normal load.
-  - CSV/JSON API responses shall be reasonably responsive for moderate dataset sizes (tens to hundreds of thousands of rows).
+  - CSV/Parquet downloads and static JSON metadata files shall be reasonably responsive for moderate dataset sizes (tens to hundreds of thousands of rows).
 
 - **NFR-3: Usability**
   - The UI shall be accessible and usable by non-technical users.
