@@ -93,6 +93,10 @@ At a high level, opencourts.fyi will consist of:
   - Support for dataset versioning (or equivalent metadata) when datasets are updated or re-ingested.
   - Users can see when a dataset was last updated and, where possible, what changed.
 
+- **FR-2A: Update / recrawl metadata**
+  - The system shall support recording per-dataset update/recrawl metadata including `min_recrawl_interval_seconds`.
+  - Automated ingestion pipelines and schedulers shall respect `min_recrawl_interval_seconds` for a dataset’s configured source(s) and shall not recrawl more frequently than the specified minimum.
+
 - **FR-3: Dataset search and discovery**
   - Users can search datasets by keywords, tags, jurisdiction, date ranges, court type, data type.
   - Users can filter datasets using facets (state, county, court level, topic, reviewed/unreviewed).
