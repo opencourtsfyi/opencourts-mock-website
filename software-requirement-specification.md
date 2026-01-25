@@ -127,6 +127,14 @@ At a high level, opencourts.fyi will consist of:
 - **FR-10: Automatic provenance logging for automated ingestion**
   - Ingest pipelines (e.g., serverless functions) automatically record source URLs, retrieval timestamps, file hashes, pipeline name/version.
 
+- **FR-10A: Bronze/Silver/Gold storage lineage**
+  - Automated ingestion pipelines shall support a medallion-style storage model with distinct stages for:
+    - **Bronze (ingest):** raw ingested data preserved in its original format(s).
+    - **Silver (transform):** cleaned/standardized datasets stored in **Parquet** format.
+    - **Gold (publish):** publication-ready datasets stored in **Parquet** format and optionally rendered/exported as **CSV** and **JSON**.
+  - For each published (gold) dataset/resource, the system shall record lineage that links the gold artifact(s) back to the specific silver artifact(s) and bronze artifact(s) from which they were produced.
+  - Lineage records shall include, at minimum: storage location(s) (container/path or equivalent), file hash(es) for each stage artifact, timestamps, and the pipeline run identifier and pipeline name/version that produced each transformation.
+
 ### 3.4 Community Contributions & Governance
 
 - **FR-11: Community dataset submissions**
