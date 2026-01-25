@@ -346,6 +346,10 @@ The following requirements ensure that implementation decisions remain compatibl
   - The system shall support automated deployment workflows for applying Terraform changes and deploying application updates.
   - Staging deployments shall be tested before promoting to production.
 
+- **INF-3A: Data pipeline configuration in GitHub**
+  - Azure Data Factory (ADF) pipeline configurations (pipelines, datasets, linked services, triggers, and related artifacts) shall be stored in a GitHub repository using ADF Git integration.
+  - GitHub shall be the source of truth for ADF pipeline configurations; changes shall be made in Git and promoted via pull requests and review before being published/deployed to ADF environments.
+
 ### 7.3 Local Development
 
 - **INF-4: Local environment parity**
