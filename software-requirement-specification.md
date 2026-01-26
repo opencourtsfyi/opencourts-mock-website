@@ -222,6 +222,14 @@ At a high level, opencourts.fyi will consist of:
   - The sync process shall detect and report drift between CKAN and the derived state from the Court Registry (including manual edits), and shall either reconcile drift automatically or require explicit maintainer approval per documented policy.
   - The sync process shall not hard-delete CKAN organizations by default; when a court is merged, split, or deactivated in the Court Registry, the corresponding CKAN organization shall be marked inactive/archived in a reversible way while preserving auditability.
 
+- **FR-22: Court Registry Duplicate Detection and Canonical Identity Resolution**
+  - The system shall support ingesting court listings from multiple authoritative registries (e.g., statewide and circuit-level directories) even when those sources contain overlapping/duplicate references to the same real-world court.
+  - The Court Registry shall assign and maintain a stable, unique court identifier for each real-world court.
+  - The system shall detect potential duplicates using a multi-signal approach including, at minimum: normalized court name(s), jurisdiction level, court type, state, county/locality identifiers, hierarchical relationships (parent/child), and authoritative source identifiers/codes when available.
+  - Official website URL(s) shall be treated as a supporting signal for duplicate detection and verification; the system shall explicitly forbid URL-only duplicate detection and shall not assume that equal or unequal URLs imply the same or different courts.
+  - When a potential duplicate is detected, the system shall record a structured, human-reviewable match report that includes the matching signals used, confidence/score (if applicable), and a recommended action (e.g., merge, keep separate, request more evidence).
+  - If court identity resolution results in a merge, split, or re-parenting, the system shall preserve provenance and versioned change history, including the rationale and any affected authoritative source references.
+
 ---
 
 ## 4. Data Governance & Compliance Requirements
