@@ -93,6 +93,10 @@ At a high level, opencourts.fyi will consist of:
   - Support for dataset versioning (or equivalent metadata) when datasets are updated or re-ingested.
   - Users can see when a dataset was last updated and, where possible, what changed.
 
+- **FR-2A: Update / recrawl metadata**
+  - The system shall support recording per-dataset update/recrawl metadata including `min_recrawl_interval_seconds`.
+  - Automated ingestion pipelines and schedulers shall respect `min_recrawl_interval_seconds` for a dataset’s configured source(s) and shall not recrawl more frequently than the specified minimum.
+
 - **FR-3: Dataset search and discovery**
   - Users can search datasets by keywords, tags, jurisdiction, date ranges, court type, data type.
   - Users can filter datasets using facets (state, county, court level, topic, reviewed/unreviewed).
@@ -126,6 +130,14 @@ At a high level, opencourts.fyi will consist of:
 
 - **FR-10: Automatic provenance logging for automated ingestion**
   - Ingest pipelines (e.g., serverless functions) automatically record source URLs, retrieval timestamps, file hashes, pipeline name/version.
+
+- **FR-10A: Bronze/Silver/Gold storage lineage**
+  - Automated ingestion pipelines shall support a medallion-style storage model with distinct stages for:
+    - **Bronze (ingest):** raw ingested data preserved in its original format(s).
+    - **Silver (transform):** cleaned/standardized datasets stored in **Parquet** format.
+    - **Gold (publish):** publication-ready datasets stored in **Parquet** format and optionally rendered/exported as **CSV** and **JSON**.
+  - For each published (gold) dataset/resource, the system shall record lineage that links the gold artifact(s) back to the specific silver artifact(s) and bronze artifact(s) from which they were produced.
+  - Lineage records shall include, at minimum: storage location(s) (container/path or equivalent), file hash(es) for each stage artifact, timestamps, and the pipeline run identifier and pipeline name/version that produced each transformation.
 
 ### 3.4 Community Contributions & Governance
 
@@ -170,6 +182,53 @@ At a high level, opencourts.fyi will consist of:
 - **FR-19: Staging and production environments**
   - The system supports at least a staging environment for testing and a production environment for public access.
   - Configuration (URLs, credentials, feature flags) shall be environment-specific and not hard-coded.
+
+### 3.7 Court Discovery and Court Registry
+
+- **FR-20: National Court Discovery as a Registry and Verification Pipeline**
+  - The system shall implement court discovery as a canonical registry and verification pipeline, not as a generalized web-crawling process.
+  - The system shall maintain a single authoritative Court Registry as the source of truth for all courts in the United States.
+  - Each court in the Court Registry shall have a stable, unique identifier that persists across URL changes, renaming, or restructuring.
+  - The Court Registry shall store, at minimum: jurisdiction level, court type, state, county/locality identifiers, hierarchical relationships, official website URL(s), provenance source(s), and verification status.
+  - The Court Registry shall be versioned, auditable, and human-reviewable, including the ability to view historical changes and the provenance/rationale for edits.
+  - The system shall seed the Court Registry from authoritative, official judicial directories published by state judicial branches, administrative offices of the courts, or equivalent official entities.
+  - Registry expansion shall proceed outward from authoritative sources; generalized web crawling shall not be used as a primary discovery mechanism.
+  - When authoritative directories are incomplete, secondary aggregators may be used only as non-authoritative hints to identify potentially missing courts.
+  - Secondary aggregator hints shall never be treated as canonical sources and shall require independent verification before a court is added to the Court Registry.
+  - The system shall support modular, state-specific adapters that ingest court listings from official state sources and emit standardized Court Registry updates.
+  - State adapters shall be independently maintainable, replaceable, and testable; changes in a state website’s structure shall be isolated to the corresponding adapter without affecting other states.
+  - The system shall define a national taxonomy of court types and jurisdiction levels.
+  - Each state shall map its court naming conventions and structures to the national taxonomy via explicit configuration.
+  - Raw state-specific court names and labels shall be preserved alongside normalized national classifications.
+  - The system shall support hierarchical court models that vary by state (e.g., multi-tier trial courts, specialty courts, and administrative divisions).
+  - The system shall remain up-to-date via scheduled verification and event-driven signals.
+  - Scheduled verification shall periodically validate court URLs, detect redirects or failures, and re-run state adapters when authoritative sources change.
+  - Event-driven signals shall include user reports, partner notifications, and automated anomaly detection.
+  - URL changes, court renaming, and structural reorganization shall be treated as expected events and shall result in versioned registry updates rather than being treated as errors.
+  - The registry and adapters shall be maintainable by a distributed team of volunteers, with documentation sufficient to add or update courts without deep engineering expertise.
+  - Registry updates shall follow a lightweight review and approval workflow with clear provenance requirements.
+  - Validation rules shall prevent duplicate courts, missing required fields, and inconsistent hierarchy.
+  - The Court Registry shall drive downstream systems, including CKAN organization creation, dataset ownership, and ingestion pipelines.
+  - CKAN shall reflect the Court Registry but shall not serve as the canonical source of court identity or structure.
+
+- **FR-21: CKAN Bootstrap and Registry Sync for North Carolina and South Carolina Courts**
+  - The system shall provide an automated, repeatable process to bootstrap and continuously synchronize CKAN court “organization” entities from the Court Registry.
+  - The initial implementation shall support, at minimum, all courts enumerated by the authoritative official court directories for **North Carolina** and **South Carolina** as configured registry sources.
+  - Each sync run shall produce a machine-readable coverage report for NC and SC that enumerates: authoritative source entries discovered, Court Registry entries created/updated, entries pending verification, entries excluded (with reasons), and the timestamp/version of the source inputs used.
+  - The sync process shall be **idempotent**: running it multiple times with unchanged Court Registry input shall not create duplicates and shall result in no net CKAN changes.
+  - The sync process shall support a **dry-run** mode that outputs a planned change set (create/update/deactivate) without modifying CKAN.
+  - CKAN organizations created/managed by this process shall be keyed to the Court Registry’s stable court identifier, and the CKAN organization “name/slug” shall remain stable across court renames or URL changes.
+  - The system shall represent court hierarchy in CKAN in a deterministic, queryable way (even if CKAN lacks native hierarchical orgs), at minimum by storing `court_id` and `parent_court_id` (and/or equivalent fields) in organization metadata (e.g., `extras`) and ensuring the UI/API can reconstruct hierarchy from those fields.
+  - The sync process shall detect and report drift between CKAN and the derived state from the Court Registry (including manual edits), and shall either reconcile drift automatically or require explicit maintainer approval per documented policy.
+  - The sync process shall not hard-delete CKAN organizations by default; when a court is merged, split, or deactivated in the Court Registry, the corresponding CKAN organization shall be marked inactive/archived in a reversible way while preserving auditability.
+
+- **FR-22: Court Registry Duplicate Detection and Canonical Identity Resolution**
+  - The system shall support ingesting court listings from multiple authoritative registries (e.g., statewide and circuit-level directories) even when those sources contain overlapping/duplicate references to the same real-world court.
+  - The Court Registry shall assign and maintain a stable, unique court identifier for each real-world court.
+  - The system shall detect potential duplicates using a multi-signal approach including, at minimum: normalized court name(s), jurisdiction level, court type, state, county/locality identifiers, hierarchical relationships (parent/child), and authoritative source identifiers/codes when available.
+  - Official website URL(s) shall be treated as a supporting signal for duplicate detection and verification; the system shall explicitly forbid URL-only duplicate detection and shall not assume that equal or unequal URLs imply the same or different courts.
+  - When a potential duplicate is detected, the system shall record a structured, human-reviewable match report that includes the matching signals used, confidence/score (if applicable), and a recommended action (e.g., merge, keep separate, request more evidence).
+  - If court identity resolution results in a merge, split, or re-parenting, the system shall preserve provenance and versioned change history, including the rationale and any affected authoritative source references.
 
 ---
 
@@ -250,6 +309,18 @@ The following requirements ensure that implementation decisions remain compatibl
   - Any automated agent (including AI systems) interacting with humans on behalf of the project shall clearly self-identify as automated at the start of each interaction.
   - AI-generated outputs used in review, moderation, or publication decisions shall be labeled as AI-generated in the UI and in any exported artifacts (e.g., JSON reports).
   - The system shall prevent AI-generated content from being displayed in a way that could reasonably be interpreted as a human-authored statement (e.g., by including an “AI-generated” label adjacent to the content).
+
+- **GC-9: National Court Discovery as a Registry and Verification Pipeline**
+  - Court identity, hierarchy, and official URLs shall be governed through a versioned, auditable Court Registry with a lightweight human review/approval workflow for changes.
+  - The governance process shall require provenance for registry entries and updates, including whether a change originated from an authoritative directory, a state adapter run, a verified partner report, or a user-submitted issue.
+  - The governance process shall explicitly prohibit treating non-authoritative aggregators or generalized web crawling as canonical sources of court identity.
+  - Maintainers shall be able to produce a public, reviewable change log and periodic audit artifacts (e.g., diffs/reports) showing registry additions, removals, merges/splits, URL changes, and verification status changes.
+  - Governance decisions and implementation choices for the registry and adapters shall prioritize durability, auditability, low operational cost, and long-term scalability to all 50 U.S. states.
+
+- **GC-10: CKAN Bootstrap and Registry Sync Auditability**
+  - CKAN court-organization state derived from the Court Registry shall be reproducible from versioned inputs, including the registry version and the sync tool/script version.
+  - Each sync run shall produce a public, reviewable artifact (e.g., JSON/CSV report or diff summary) describing proposed/applied changes, including counts of created/updated/deactivated organizations and any drift detected.
+  - Manual edits to CKAN court-organization metadata that is designated as registry-derived shall be discouraged; if performed, the governance process shall require either (a) backporting the change to the Court Registry or (b) documenting an explicit override rule so the next sync run is predictable and auditable.
 
 ---
 
@@ -346,6 +417,10 @@ The following requirements ensure that implementation decisions remain compatibl
   - The system shall support automated deployment workflows for applying Terraform changes and deploying application updates.
   - Staging deployments shall be tested before promoting to production.
 
+- **INF-3A: Data pipeline configuration in GitHub**
+  - Azure Data Factory (ADF) pipeline configurations (pipelines, datasets, linked services, triggers, and related artifacts) shall be stored in a GitHub repository using ADF Git integration.
+  - GitHub shall be the source of truth for ADF pipeline configurations; changes shall be made in Git and promoted via pull requests and review before being published/deployed to ADF environments.
+
 ### 7.3 Local Development
 
 - **INF-4: Local environment parity**
@@ -372,6 +447,16 @@ The following requirements ensure that implementation decisions remain compatibl
 
 - **NFR-5: Transparency & trust**
   - The system shall prioritize clear messaging on data sources, limitations and caveats, and review and governance processes.
+
+- **NFR-6: Court Record Custody and Source Preservation Policy**
+  - The system shall distinguish between (a) records **stored in Azure Blob Storage** (copied/preserved artifacts) and (b) records **referenced via external URLs** (link-only resources), and shall expose this distinction in dataset/resource metadata.
+  - When the platform performs or publishes derivative works, analytics products, versioned datasets, or long-term citations that depend on a source file, the system shall copy the source file into Azure Blob Storage and treat that copy as the preserved input artifact for reproducibility.
+  - When the platform is acting solely as a discovery/catalog layer (i.e., no derivatives, analytics, versioning, or long-term citation requirements), the system shall link to the original court-hosted file(s) rather than copying them.
+  - For every copied/preserved file in Azure Blob Storage, the system shall support provenance tracking, hashing, and versioning at minimum including: original source URL, retrieval timestamp, cryptographic hash (e.g., SHA-256), size, content type, and a version identifier that links derivatives back to the specific preserved source artifact.
+  - The system shall apply this policy uniformly across all court types and all record formats supported by the portal (e.g., CSV, JSON, PDF, HTML, images, and other downloadable artifacts).
+  - The system shall document the custody decision for each dataset and each resource as metadata (e.g., `custody_mode` = `link_only` | `copied_to_blob`, with associated fields such as `external_url` and/or `blob_uri`, plus a rationale/category such as `discovery_only` | `derivative_required` | `analytics_required` | `versioning_required` | `long_term_citation_required`).
+  - The system shall make this policy enforceable and auditable by ensuring (a) custody metadata is required at publish time, (b) custody decisions and changes are logged with actor and timestamp, and (c) maintainers can generate an audit report enumerating all datasets/resources and their custody mode, hashes (for copied files), and version lineage.
+  - The implementation shall align with cost-effective, volunteer-operated infrastructure by minimizing unnecessary copying, enabling retention/lifecycle controls for preserved artifacts, and supporting link-only operation where appropriate without sacrificing provenance transparency.
 
 ---
 
