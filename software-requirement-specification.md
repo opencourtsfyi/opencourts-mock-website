@@ -389,6 +389,16 @@ The following requirements ensure that implementation decisions remain compatibl
 - **NFR-5: Transparency & trust**
   - The system shall prioritize clear messaging on data sources, limitations and caveats, and review and governance processes.
 
+- **NFR-6: Court Record Custody and Source Preservation Policy**
+  - The system shall distinguish between (a) records **stored in Azure Blob Storage** (copied/preserved artifacts) and (b) records **referenced via external URLs** (link-only resources), and shall expose this distinction in dataset/resource metadata.
+  - When the platform performs or publishes derivative works, analytics products, versioned datasets, or long-term citations that depend on a source file, the system shall copy the source file into Azure Blob Storage and treat that copy as the preserved input artifact for reproducibility.
+  - When the platform is acting solely as a discovery/catalog layer (i.e., no derivatives, analytics, versioning, or long-term citation requirements), the system shall link to the original court-hosted file(s) rather than copying them.
+  - For every copied/preserved file in Azure Blob Storage, the system shall support provenance tracking, hashing, and versioning at minimum including: original source URL, retrieval timestamp, cryptographic hash (e.g., SHA-256), size, content type, and a version identifier that links derivatives back to the specific preserved source artifact.
+  - The system shall apply this policy uniformly across all court types and all record formats supported by the portal (e.g., CSV, JSON, PDF, HTML, images, and other downloadable artifacts).
+  - The system shall document the custody decision for each dataset and each resource as metadata (e.g., `custody_mode` = `link_only` | `copied_to_blob`, with associated fields such as `external_url` and/or `blob_uri`, plus a rationale/category such as `discovery_only` | `derivative_required` | `analytics_required` | `versioning_required` | `long_term_citation_required`).
+  - The system shall make this policy enforceable and auditable by ensuring (a) custody metadata is required at publish time, (b) custody decisions and changes are logged with actor and timestamp, and (c) maintainers can generate an audit report enumerating all datasets/resources and their custody mode, hashes (for copied files), and version lineage.
+  - The implementation shall align with cost-effective, volunteer-operated infrastructure by minimizing unnecessary copying, enabling retention/lifecycle controls for preserved artifacts, and supporting link-only operation where appropriate without sacrificing provenance transparency.
+
 ---
 
 ## Nice to Have
